@@ -1,49 +1,34 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function DashboardPage() {
-  const { userId } = await auth();
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-  if (!userId) {
-    return redirect("/");
-  }
+export default function DashboardPage() {
+  const { isSignedIn, user, isLoaded } = useUser();
+  const router = useRouter();
 
-  const user = await currentUser();
-  const role = user?.publicMetadata?.role;
+  useEffect(() => {
+    if (!isLoaded) return;
 
-  // 🔥 Role-based redirect (FULL MAPPING)
-  switch (role) {
-    case "SuperAdmin":
-      return redirect("/admin");
+    if (!isSignedIn) {
+      router.push("/");
+      return;
+    }
 
-    case "ProjectManager":
-      return redirect("/project-manager");
+    const role = user?.publicMetadata?.role;
 
-    case "RFIDTagging":
-      return redirect("/rfid");
+    switch (role) {
+      case "RFIDTagging":
+        router.push("/rfid");
+        break;
+      case "SuperAdmin":
+        router.push("/admin");
+        break;
+      default:
+        router.push("/department");
+    }
+  }, [isLoaded, isSignedIn]);
 
-    case "FilePreparing":
-      return redirect("/file-preparing");
-
-    case "FileNumbering":
-      return redirect("/file-numbering");
-
-    case "Scanning":
-      return redirect("/scanning");
-
-    case "Quality":
-      return redirect("/quality");
-
-    case "Metadata":
-      return redirect("/metadata");
-
-    case "DocumentReview":
-      return redirect("/review");
-
-    case "Department":
-      return redirect("/department");
-
-    default:
-      return redirect("/department"); // fallback
-  }
+  return <div>Loading...</div>;
 }
