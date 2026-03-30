@@ -1,12 +1,8 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+// middleware.js (root)
 
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect(); // 🔥 protects route
-  }
-});
+export default clerkMiddleware();
 
 export const config = {
   matcher: ["/((?!_next|.*\\..*).*)"],
