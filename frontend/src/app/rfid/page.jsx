@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = "force-dynamic";
 import { useAuth } from "@clerk/nextjs";
 import api from "../lib/axios";
 import { useState, useEffect } from "react";
