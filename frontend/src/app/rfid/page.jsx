@@ -81,38 +81,38 @@ export default function RFIDPage() {
           </thead>
 
           <tbody>
-            {data.map((doc) => (
-              <tr key={doc._id} className="border-t bg-gray-100">
-                <td className="border p-1">{doc.rfid}</td>
-                <td className="border">{doc.department}</td>
-                <td className="border">{doc.subDepartment}</td>
-
-                <td className="border">
-                  {doc.receivedDate
-                    ? new Date(doc.receivedDate).toLocaleDateString()
-                    : "-"}
-                </td>
-
-                <td className="border">
-                  <div className="flex items-center gap-2 justify-center">
-                    <img
-                      src={
-                        doc.userDetails?.image ||
-                        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                      }
-                      className="w-6 h-6 rounded-full object-cover"
-                    />
-                    <span>{doc.userDetails?.name || "Unknown"}</span>
-                  </div>
-                </td>
-                {/* ✅ NEW COLUMN */}
-                <td className="border">
-                  {doc.rfidTaggedAt
-                    ? new Date(doc.rfidTaggedAt).toLocaleDateString()
-                    : "-"}
-                </td>
-              </tr>
-            ))}
+            {data.map((doc) => {
+              return (
+                <tr key={doc._id} className="border-t bg-gray-100">
+                  <td className="border p-1">{doc.rfid}</td>
+                  <td className="border">{doc.department}</td>
+                  <td className="border">{doc.subDepartment}</td>
+                  <td className="border">
+                    {doc.receivedDate
+                      ? new Date(doc.receivedDate).toLocaleDateString()
+                      : "-"}
+                  </td>
+                  <td className="border">
+                    <div className="flex items-center gap-2 justify-center">
+                      <img
+                        src={
+                          doc.userDetails?.image ||
+                          "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        }
+                        className="w-6 h-6 rounded-full object-cover"
+                        alt="user"
+                      />
+                      <span>{doc.userDetails?.name || "Unknown"}</span>
+                    </div>
+                  </td>
+                  <td className="border">
+                    {doc.rfidTaggedAt
+                      ? new Date(doc.rfidTaggedAt).toLocaleDateString()
+                      : "-"}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
